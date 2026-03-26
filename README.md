@@ -16,28 +16,18 @@ Para desenvolvimento local é necessário:
 1. No `pom.xml` do projeto é necessário adicionar:
 
     ```xml
-    <repositories>
-        ...
-        <!-- Azure Artifacts Maven - Suíte Logística -->
-        <repository>
-            <id>SuiteLogistica</id>
-            <url>https://totvstfs.pkgs.visualstudio.com/SuiteLogistica/_packaging/SuiteLogistica/maven/v1</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-        </repository>
-        ...
-    </repositories>
+    <repositories>       
 
     <dependencies>
         ...
         <!-- Suíte Logística Validators -->
-        <dependency>
-            <groupId>com.totvs.sl</groupId>
-            <artifactId>validator-sdk</artifactId>
-            <version>1.0.0</version>            
-        </dependency>
+          <dependency>
+           <groupId>io.github.coletaentrega</groupId>
+           <artifactId>validator-sdk</artifactId>
+           <version>1.0.0</version>
+         </dependency>
         ...
     </dependencies>
+   
     ```
 implementação das mesmas podem ser consultadas neste repositório. A listagem de todas as regras e inclusive, atualização ou inclusão de novas regras será documentada no arquivo de [CHANGELOG](./CHANGELOG.md) desta biblioteca.
