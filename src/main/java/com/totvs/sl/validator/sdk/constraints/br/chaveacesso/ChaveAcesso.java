@@ -1,13 +1,13 @@
 package com.totvs.sl.validator.sdk.constraints.br.chaveacesso;
 
-import jakarta.validation.Constraint;
-import jakarta.validation.Payload;
-
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+
+import jakarta.validation.Constraint;
+import jakarta.validation.Payload;
 
 @Documented
 @Constraint(validatedBy = ChaveAcessoValidator.class)
@@ -15,10 +15,9 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ChaveAcesso {
 
-	String message() default "{validator.constraints.br.ChaveAcesso.message}";
+	String message() default "{validator.constraints.br.chaveAcesso.message}";
 
 	Class<?>[] groups() default {};
 
 	Class<? extends Payload>[] payload() default {};
 }
-
