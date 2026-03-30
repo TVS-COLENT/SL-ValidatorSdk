@@ -1,8 +1,11 @@
 package com.totvs.sl.validator.sdk.constraints.br.cpf;
 
+import java.util.Objects;
+
+import org.apache.commons.lang3.StringUtils;
+
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * Validator para CPF (Cadastro de Pessoas Físicas).
@@ -10,7 +13,8 @@ import org.apache.commons.lang3.StringUtils;
  * <p>
  * Regras:
  * <ul>
- * <li>Comprimento total: 11 dígitos numéricos (sem formatação) ou 14 caracteres (com formatação XXX.XXX.XXX-XX)</li>
+ * <li>Comprimento total: 11 dígitos numéricos (sem formatação) ou 14 caracteres
+ * (com formatação XXX.XXX.XXX-XX)</li>
  * <li>Caracteres permitidos: somente dígitos (0-9)</li>
  * <li>Não permite todos os dígitos iguais (ex: 000.000.000-00)</li>
  * <li>Os 2 últimos dígitos são verificadores calculados pelo Módulo 11</li>
@@ -59,8 +63,14 @@ public class CPFValidator implements ConstraintValidator<CPF, String> {
 		return isValid(value);
 	}
 
-	private static String sanitize(String cpf) {
-		return cpf.replaceAll("[.\\-]", "");
+	/**
+	 * Remove formatação (pontos, hífens)
+	 *
+	 * @param cpf CPF com ou sem formatação
+	 * @return CPF sanitizado contendo apenas caracteres numéricos
+	 */
+	public static String sanitize(String cpf) {
+		return Objects.nonNull(cpf) ? cpf.replaceAll("[.-]", "") : null;
 	}
 
 	private static boolean possuiApenasDigitos(String cpf) {
@@ -87,7 +97,7 @@ public class CPFValidator implements ConstraintValidator<CPF, String> {
 		int segundoDigito = calcularDigitoVerificador(cpf, PESOS_SEGUNDO_DIGITO);
 
 		return primeiroDigito == Character.getNumericValue(cpf.charAt(9))
-				&& segundoDigito == Character.getNumericValue(cpf.charAt(10));
+		        && segundoDigito == Character.getNumericValue(cpf.charAt(10));
 	}
 
 	private static int calcularDigitoVerificador(String cpf, int[] pesos) {
@@ -100,4 +110,3 @@ public class CPFValidator implements ConstraintValidator<CPF, String> {
 		return resto < 2 ? 0 : 11 - resto;
 	}
 }
-

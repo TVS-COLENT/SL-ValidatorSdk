@@ -2,9 +2,12 @@
 
 Todas as alterações relevantes a este projeto serão documentadas neste arquivo.
 
-
 ## Features
 
+### [1.1.0] - 30-03-2026
+
+- **Métodos estáticos para uso** — `CNPJValidator.sanitize(String)` e `CPFValidator.sanitize(String)` podem ser
+  chamados diretamente sem depender do contexto Bean Validation para remover formatação de CPF e CNPJ.
 
 ### [1.0.0] - 25-03-2026
 
@@ -26,7 +29,8 @@ Todas as alterações relevantes a este projeto serão documentadas neste arquiv
     - Inglês (`en_US`)
     - Espanhol (`es_ES`)
 
-- **Métodos estáticos para uso em Domain** — `CNPJValidator.isValid(String)` e `CPFValidator.isValid(String)` podem ser chamados diretamente sem depender do contexto Bean Validation
+- **Métodos estáticos para uso em Domain** — `CNPJValidator.isValid(String)` e `CPFValidator.isValid(String)` podem ser
+  chamados diretamente sem depender do contexto Bean Validation
 
 - **Testes unitários** — Cobertura com JUnit 5 e testes parametrizados para CPF e CNPJ
 

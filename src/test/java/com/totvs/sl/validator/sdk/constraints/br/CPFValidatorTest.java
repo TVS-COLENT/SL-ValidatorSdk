@@ -1,6 +1,8 @@
 package com.totvs.sl.validator.sdk.constraints.br;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.totvs.sl.validator.sdk.constraints.br.cpf.CPFValidator;
@@ -115,6 +117,53 @@ class CPFValidatorTest {
 		@DisplayName("quando CPF contém caracteres especiais")
 		void quandoCpfContemCaracteresEspeciais() {
 			assertFalse(CPFValidator.isValid("5299822@725"));
+		}
+	}
+
+	@Nested
+	@DisplayName("Método sanitize")
+	class MetodoSanitize {
+
+		@Test
+		@DisplayName("deve retornar null quando o valor é null")
+		void deveRetornarNullQuandoValorNull() {
+			assertNull(CPFValidator.sanitize(null));
+		}
+
+		@Test
+		@DisplayName("deve retornar string vazia quando valor é string vazia")
+		void deveRetornarStringVaziaQuandoValorVazio() {
+			assertEquals("", CPFValidator.sanitize(""));
+		}
+
+		@Test
+		@DisplayName("deve remover pontos e hífen da formatação padrão")
+		void deveRemoverFormatacaoPadrao() {
+			assertEquals("52998224725", CPFValidator.sanitize("529.982.247-25"));
+		}
+
+		@Test
+		@DisplayName("deve manter valor sem formatação inalterado")
+		void deveManterValorSemFormatacao() {
+			assertEquals("52998224725", CPFValidator.sanitize("52998224725"));
+		}
+
+		@Test
+		@DisplayName("deve remover apenas pontos")
+		void deveRemoverApenasPontos() {
+			assertEquals("52998224725", CPFValidator.sanitize("529.982.24725"));
+		}
+
+		@Test
+		@DisplayName("deve remover apenas hífen")
+		void deveRemoverApenasHifen() {
+			assertEquals("52998224725", CPFValidator.sanitize("529982247-25"));
+		}
+
+		@Test
+		@DisplayName("deve manter letras e outros caracteres não formatação")
+		void deveManterLetrasEOutrosCaracteres() {
+			assertEquals("5299822@725", CPFValidator.sanitize("5299822@725"));
 		}
 	}
 }

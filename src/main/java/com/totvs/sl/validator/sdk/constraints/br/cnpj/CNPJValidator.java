@@ -4,6 +4,8 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.Objects;
+
 /**
  * Validator para CNPJ no novo padrão alfanumérico.
  *
@@ -68,8 +70,14 @@ public class CNPJValidator implements ConstraintValidator<CNPJ, String> {
 		return isValid(value);
 	}
 
-	private static String sanitize(String cnpj) {
-		return cnpj.replaceAll("[./-]", "").toUpperCase();
+	/**
+	 * Remove formatação (pontos, barras, hífens) e converte para maiúsculas.
+	 *
+	 * @param cnpj CNPJ com ou sem formatação
+	 * @return CNPJ sanitizado contendo apenas caracteres alfanuméricos
+	 */
+	public static String sanitize(String cnpj) {
+		return Objects.nonNull(cnpj) ? cnpj.replaceAll("[./-]", "").toUpperCase() : null;
 	}
 
 	private static boolean possuiCaracteresValidos(String cnpj) {

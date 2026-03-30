@@ -2,7 +2,9 @@ package com.totvs.sl.validator.sdk.constraints.br;
 
 
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.totvs.sl.validator.sdk.constraints.br.cnpj.CNPJValidator;
@@ -99,6 +101,53 @@ class CNPJValidatorTest {
 		@DisplayName("quando CNPJ contém caracteres minúsculos")
 		void quandoCnpjContemMinusculos() {
 			assertTrue(validator.isValid("12abc34501de35", null));
+		}
+	}
+
+	@Nested
+	@DisplayName("Método sanitize")
+	class MetodoSanitize {
+
+		@Test
+		@DisplayName("deve retornar null quando o valor é null")
+		void deveRetornarNullQuandoValorNull() {
+			assertNull(CNPJValidator.sanitize(null));
+		}
+
+		@Test
+		@DisplayName("deve remover pontos, barra e hífen da formatação padrão")
+		void deveRemoverFormatacaoPadrao() {
+			assertEquals("11222333000181", CNPJValidator.sanitize("11.222.333/0001-81"));
+		}
+
+		@Test
+		@DisplayName("deve converter letras minúsculas para maiúsculas")
+		void deveConverterParaMaiusculas() {
+			assertEquals("12ABC34501DE35", CNPJValidator.sanitize("12abc34501de35"));
+		}
+
+		@Test
+		@DisplayName("deve manter valor sem formatação inalterado")
+		void deveManterValorSemFormatacao() {
+			assertEquals("11222333000181", CNPJValidator.sanitize("11222333000181"));
+		}
+
+		@Test
+		@DisplayName("deve remover apenas caracteres de formatação (./-)")
+		void deveRemoverApenasCaracteresDeFormatacao() {
+			assertEquals("6YAJTGCRL89J40", CNPJValidator.sanitize("6Y.AJT.GCR/L89J-40"));
+		}
+
+		@Test
+		@DisplayName("deve retornar string vazia quando valor é string vazia")
+		void deveRetornarStringVaziaQuandoValorVazio() {
+			assertEquals("", CNPJValidator.sanitize(""));
+		}
+
+		@Test
+		@DisplayName("deve converter formatação alfanumérica com minúsculas para maiúsculas")
+		void deveConverterFormatacaoAlfanumericaComMinusculasParaMaiusculas() {
+			assertEquals("6YAJTGCRL89J40", CNPJValidator.sanitize("6y.ajt.gcr/l89j-40"));
 		}
 	}
 }
